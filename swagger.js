@@ -2,8 +2,7 @@ const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
     title: 'MONSTER TAP  API Documentation',
-    description:
-      'API documentation for the monster tap ServerSide API.',
+    description: 'API documentation for the monster tap ServerSide API.',
     version: '1.0.0',
   },
   servers: [
@@ -21,7 +20,7 @@ const swaggerDefinition = {
     // },
   ],
   paths: {
-    "/auth/sign-up": {
+    '/auth/sign-up': {
       post: {
         summary: 'Onboard Users',
         tags: ['Auth'],
@@ -47,32 +46,32 @@ const swaggerDefinition = {
       },
     },
 
-    "/auth/sign-in": {
-        post: {
-          summary: 'Sign in Users',
-          tags: ['Auth'],
-          requestBody: {
-            required: true,
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    email: { type: 'string' },
-                    password: { type: 'string' },
-                  },
+    '/auth/sign-in': {
+      post: {
+        summary: 'Sign in Users',
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  password: { type: 'string' },
                 },
               },
             },
           },
-          responses: {
-            201: {
-              description: 'Successful operation',
-            },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
           },
         },
       },
-      
+    },
+
     //   '/onboard-admin': {
     //     post: {
     //       summary: 'Onboard Admin',
@@ -257,4 +256,3 @@ const swaggerDefinition = {
 };
 
 module.exports = swaggerDefinition;
-
