@@ -9,7 +9,7 @@ const { generateToken } = require("../utils/tokenGen");
 const db = require("../database/models");
 
 exports.createUser = asyncHandler(async (req, res) => {
-  const data = req.data;
+  const data = req.data; 
   const { referral_code } = req.query;
   const { email } = data;
 
