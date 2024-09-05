@@ -10,10 +10,10 @@ const swaggerDefinition = {
       url: 'http://localhost:6600',
       description: 'Local server',
     },
-    // {
-    //   url: 'https://sterling-dictionary.onrender.com/api/v1',
-    //   description: 'Development server',
-    // },
+    {
+      url: 'https://monster-tap-backend.onrender.com/api/v1',
+      description: 'Development server',
+    },
     // {
     //   url: 'https://backend.com.endpoint.ng/api/v1',
     //   description: 'Production server',
