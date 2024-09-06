@@ -33,6 +33,7 @@ const swaggerDefinition = {
                 properties: {
                   email: { type: 'string' },
                   password: { type: 'string' },
+                  confirm_password: { type: 'string' },
                 },
               },
             },
@@ -151,30 +152,30 @@ const swaggerDefinition = {
     //     },
     //   },
 
-    //   '/forget-password': {
-    //     post: {
-    //       summary: 'When a user forget their password',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+      '/auth/forget-password': {
+        post: {
+          summary: 'When a user forget their password',
+          tags: ['Auth'],
+          requestBody: {
+            required: true,
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    email: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            '200': {
+              description: 'Successful operation',
+            },
+          },
+        },
+      },
 
     //   '/verify-otp': {
     //     post: {

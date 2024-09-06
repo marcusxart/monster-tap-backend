@@ -1,7 +1,6 @@
-const Joi = require("joi");
-
-const AppError = require("../utils/appError");
-const { email, password } = require("../configs/joiConfig");
+const Joi = require('joi');
+const AppError = require('../utils/appError');
+const { email, password } = require('../configs/joiConfig');
 
 const joiHandler = (data, req, next) => {
   if (data) {
@@ -18,12 +17,44 @@ const joiHandler = (data, req, next) => {
   }
 };
 
+// Schema for confirming password
+const confirmPassword = Joi.any()
+  .valid(Joi.ref('password'))
+  .required()
+  .label('Confirm password')
+  .messages({ 'any.only': '{{#label}} does not match' });
+
 module.exports = {
+  // Function to validate email and password
   emailPassword: (req, res, next) => {
     joiHandler(
       {
         email,
         password,
+      },
+      req,
+      next
+    );
+  },
+
+  // Function to validate only email 
+  validateEmail: (req, res, next) => {
+    joiHandler(
+      {
+        email,
+      },
+      req,
+      next
+    );
+  },
+
+  // Function to validate email, password, and confirm password
+  validateEmailPasswordConfirm: (req, res, next) => {
+    joiHandler(
+      {
+        email,
+        password,
+        confirmPassword,
       },
       req,
       next
