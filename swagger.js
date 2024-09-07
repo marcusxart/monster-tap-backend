@@ -33,7 +33,7 @@ const swaggerDefinition = {
                 properties: {
                   email: { type: 'string' },
                   password: { type: 'string' },
-                  confirm_password: { type: 'string' },
+                  confirmPassword: { type: 'string' },
                 },
               },
             },
