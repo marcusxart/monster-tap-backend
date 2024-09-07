@@ -1,14 +1,17 @@
-const express = require("express");
-const cors = require("cors");
+const express = require('express');
+const cors = require('cors');
 
-const errorMiddleware = require("./middlewares/error.middleware");
+const errorMiddleware = require('./middlewares/error.middleware');
 
 const app = express();
 
 // Enable CORS
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      'http://localhost:5173',
+      'https://monster-tap-backend.onrender.com',
+    ],
     optionsSuccessStatus: 200,
   })
 );
@@ -17,7 +20,7 @@ app.use(
 app.use(express.json());
 
 // root route
-app.use("/", require("./routes"));
+app.use('/', require('./routes'));
 
 // error middleware
 app.use(errorMiddleware);
