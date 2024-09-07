@@ -11,7 +11,7 @@ const swaggerDefinition = {
       description: 'Local server',
     },
     {
-      url: 'https://monster-tap-backend.onrender.com/api/v1',
+      url: 'https://monster-tap-backend.onrender.com',
       description: 'Development server',
     },
     // {
@@ -73,162 +73,83 @@ const swaggerDefinition = {
       },
     },
 
-    //   '/onboard-admin': {
-    //     post: {
-    //       summary: 'Onboard Admin',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 password: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '201': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
-
-    //   '/onboard-subadmin': {
-    //     post: {
-    //       summary: 'Onboard Sub-Admin',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 password: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '201': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
-
-    //   '/login': {
-    //     post: {
-    //       summary: 'logging in users',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 password: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'User logged in successfully',
-    //         },
-    //       },
-    //       security: [{ JWT: [] }], // Add security requirement for JWT token
-    //     },
-    //   },
-
-      '/auth/forget-password': {
-        post: {
-          summary: 'When a user forget their password',
-          tags: ['Auth'],
-          requestBody: {
-            required: true,
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    email: { type: 'string' },
-                  },
+    '/auth/forget-password': {
+      post: {
+        summary: 'When a user forget their password',
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
                 },
               },
             },
           },
-          responses: {
-            '200': {
-              description: 'Successful operation',
-            },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
           },
         },
       },
+    },
 
-    //   '/verify-otp': {
-    //     post: {
-    //       summary: 'Verify the otp sent to user',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 otp: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+    '/verify-otp': {
+      post: {
+        summary: 'Verify the otp sent to user',
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  otp: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
+          },
+        },
+      },
+    },
 
-    //   '/reset-password': {
-    //     post: {
-    //       summary: 'Reset password',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 newPassword: { type: 'string' },
-    //                 confirmPassword: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+    '/reset-password': {
+      post: {
+        summary: 'Reset password',
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  newPassword: { type: 'string' },
+                  confirmPassword: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
+          },
+        },
+      },
+    },
   },
   security: [
     {

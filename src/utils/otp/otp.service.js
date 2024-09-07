@@ -1,10 +1,42 @@
- class OtpService {
+const db = require('../../database/models');
+const { hashPassword } = require('../../utils/hashPassword');
+
+class OtpService {
   constructor() {}
 
   async generateOtp() {
     const otp = Math.floor(Math.random() * 9000) + 1000;
     const otpString = otp.toString();
     return otpString;
+  }
+
+  async requestOtp(email) {
+    const user = await db.users.findOne({ where: { email } });
+
+    if (!user) {
+      throw new AppError('User not found', 404);
+    }
+
+    const otp = await this.generateOtp();
+    const hashedOtp = await hashPassword(otp);
+    const otpExpiration = new Date(Date.now() + 5 * 60 * 1000);
+
+    // user.otp = hashedOtp;
+    // user.otpExpiration = otpExpiration;
+    // await this.userRepository.save(user);
+
+    // this.eventEmitter.emit(
+    //   'email',
+    //   user,
+    //   'otp-email',
+    //   'OTP for Account Verification',
+    //   otp
+    // );
+
+    return {
+      status: 'success',
+      message: 'OTP has been sent to your email',
+    };
   }
 
   async verifyOtp(email, otp) {
@@ -33,35 +65,6 @@
 
     return {
       message: 'Account verified successfully',
-      statusCode: HttpStatus.OK,
-    };
-  }
-
-  async requestOtp(email) {
-    const user = await User.findOne({ where: { email } });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    const otp = await this.generateOtp();
-    const hashedOtp = await bcrypt.hash(otp, 10);
-    const otpExpiration = new Date(Date.now() + 5 * 60 * 1000);
-
-    user.otp = hashedOtp;
-    user.otpExpiration = otpExpiration;
-    await this.userRepository.save(user);
-
-    this.eventEmitter.emit(
-      'email',
-      user,
-      'otp-email',
-      'OTP for Account Verification',
-      otp
-    );
-
-    return {
-      message: 'OTP has been sent to your email',
       statusCode: HttpStatus.OK,
     };
   }
@@ -98,5 +101,4 @@
   //   }
 }
 
-
-module.exports = OtpService
+module.exports = OtpService;
