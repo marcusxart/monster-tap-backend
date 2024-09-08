@@ -6,12 +6,19 @@ const errorMiddleware = require('./middlewares/error.middleware');
 const app = express();
 
 // Enable CORS
+// app.use(
+//   cors({
+//     origin: [
+//       'http://localhost:5173',
+//       'https://monster-tap-backend.onrender.com',
+//     ],
+//     optionsSuccessStatus: 200,
+//   })
+// );
+
 app.use(
   cors({
-    origin: [
-      'http://localhost:5173',
-      'https://monster-tap-backend.onrender.com',
-    ],
+    origin: '*',
     optionsSuccessStatus: 200,
   })
 );

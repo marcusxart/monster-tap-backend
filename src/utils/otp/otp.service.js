@@ -1,5 +1,18 @@
+require('dotenv').config();
 const db = require('../../database/models');
 const { hashPassword } = require('../../utils/hashPassword');
+const nodemailer = require('nodemailer');
+const { EmailSender } = require('../email/email.service');
+
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.USER,
+    pass: process.env.PASSWORD,
+  },
+});
 
 class OtpService {
   constructor() {}
@@ -21,22 +34,34 @@ class OtpService {
     const hashedOtp = await hashPassword(otp);
     const otpExpiration = new Date(Date.now() + 5 * 60 * 1000);
 
-    // user.otp = hashedOtp;
-    // user.otpExpiration = otpExpiration;
-    // await this.userRepository.save(user);
+    // // Email content
+    // const mailOptions = {
+    //   from: 'Monster tap <your-email@example.com>',
+    //   to: email,
+    //   subject: 'PASSWORD RESET OTP',
+    //   text: `Your OTP for account verification is: ${otp}`,
+    //   html: `<p>Your OTP for account verification is: <strong>${otp}</strong></p>`,
+    // };
 
-    // this.eventEmitter.emit(
-    //   'email',
-    //   user,
-    //   'otp-email',
-    //   'OTP for Account Verification',
-    //   otp
-    // );
+    // try {
+    //   await transporter.sendMail(mailOptions);
+    //   return {
+    //     status: 'success',
+    //     message: 'OTP has been sent to your email',
+    //   };
+    // } catch (error) {
+    //   console.error('Error sending email:', error.message);
+    // }
 
-    return {
-      status: 'success',
-      message: 'OTP has been sent to your email',
+    const emailSender = new EmailSender();
+
+    const emailOptions = {
+      email: email,
+      subject: 'Verification OTP',
+      message: `Your verification OTP is ${otp}. Please use this OTP to verify your email.`,
     };
+
+    emailSender.sendEmail(emailOptions);
   }
 
   async verifyOtp(email, otp) {
@@ -68,37 +93,6 @@ class OtpService {
       statusCode: HttpStatus.OK,
     };
   }
-
-  //   @OnEvent('email', { async: true, promisify: true })
-  //   async sendEmail(
-  //     user: User | any,
-  //     template: string,
-  //     subject: string,
-  //     otp?: string | null
-  //   ) {
-  //     const date = new Date();
-  //     const year = date.getFullYear();
-  //     const email = user.email;
-
-  //     const welcomeEmail = {
-  //       from: 'Bitwave FX <merchant@checkretail.tech>',
-  //       to: email,
-  //       //bcc: 'Samuel Osinloye <psalmueloye@gmail.com>, olosundetobi1@gmail.com',
-  //       subject,
-  //       template,
-  //       context: {
-  //         email,
-  //         otp,
-  //         date: date,
-  //         year: year,
-  //       },
-  //     };
-  //     try {
-  //       await this.mailService.sendMail(welcomeEmail);
-  //     } catch (error) {
-  //       console.error('Error sending email:', error.message);
-  //     }
-  //   }
 }
 
 module.exports = OtpService;
