@@ -1,18 +1,10 @@
-require('dotenv').config();
+const ejs = require('ejs');
+const path = require('path');
 const db = require('../../database/models');
 const { hashPassword } = require('../../utils/hashPassword');
 const nodemailer = require('nodemailer');
-const { EmailSender } = require('../email/email.service');
-
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.USER,
-    pass: process.env.PASSWORD,
-  },
-});
+const EmailSender = require('../../utils/email/email.service');
+const emailSender = new EmailSender();
 
 class OtpService {
   constructor() {}
@@ -31,37 +23,27 @@ class OtpService {
     }
 
     const otp = await this.generateOtp();
+    const date = new Date();
     const hashedOtp = await hashPassword(otp);
     const otpExpiration = new Date(Date.now() + 5 * 60 * 1000);
 
-    // // Email content
-    // const mailOptions = {
-    //   from: 'Monster tap <your-email@example.com>',
-    //   to: email,
-    //   subject: 'PASSWORD RESET OTP',
-    //   text: `Your OTP for account verification is: ${otp}`,
-    //   html: `<p>Your OTP for account verification is: <strong>${otp}</strong></p>`,
-    // };
-
-    // try {
-    //   await transporter.sendMail(mailOptions);
-    //   return {
-    //     status: 'success',
-    //     message: 'OTP has been sent to your email',
-    //   };
-    // } catch (error) {
-    //   console.error('Error sending email:', error.message);
-    // }
-
-    const emailSender = new EmailSender();
+    // Render the OTP email template with EJS
+    const templatePath = path.join(
+      __dirname,
+      '../email/template/otpEmailTemplate.ejs'
+    );
+    const message = await ejs.renderFile(templatePath, {
+      otp,
+      year: date.getFullYear(),
+    });
 
     const emailOptions = {
       email: email,
-      subject: 'Verification OTP',
-      message: `Your verification OTP is ${otp}. Please use this OTP to verify your email.`,
+      subject: 'Reset Password OTP',
+      message: message,
     };
 
-    emailSender.sendEmail(emailOptions);
+    await emailSender.sendEmail(emailOptions);
   }
 
   async verifyOtp(email, otp) {

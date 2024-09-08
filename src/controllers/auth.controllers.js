@@ -1,6 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const generateUniqueId = require('generate-unique-id');
 const crypto = require('crypto');
+const ejs = require('ejs');
+const path = require('path');
 
 const AppError = require('../utils/appError');
 const { hashPassword, checkPassword } = require('../utils/hashPassword');
@@ -9,6 +11,8 @@ const { generateToken } = require('../utils/tokenGen');
 const db = require('../database/models');
 const OtpService = require('../utils/otp/otp.service');
 const otpService = new OtpService();
+const EmailSender = require('../utils/email/email.service');
+const emailSender = new EmailSender();
 
 exports.createUser = asyncHandler(async (req, res) => {
   const data = req.data;
@@ -62,6 +66,25 @@ exports.createUser = asyncHandler(async (req, res) => {
         });
       }
     }
+
+    const date = new Date();
+
+    // Render the OTP email template with EJS
+    const templatePath = path.join(
+      __dirname,
+      '../utils/email/template/welcome-email.ejs'
+    );
+    const message = await ejs.renderFile(templatePath, {
+      year: date.getFullYear(),
+    });
+
+    const emailOptions = {
+      email: email,
+      subject: 'Welcome ',
+      message: message,
+    };
+
+    await emailSender.sendEmail(emailOptions);
 
     res.status(201).send({
       status: 'success',

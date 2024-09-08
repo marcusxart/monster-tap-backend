@@ -1,13 +1,16 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 class EmailSender {
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: 'gmail',
-      secure: false, // Set to true if using SSL/TLS
+      secure: false,
       auth: {
-        user: process.env.USER,
-        pass: process.env.PASS,
+        // user: process.env.USER,
+        // pass: process.env.PASS,
+        user: 'thepeculiartech@gmail.com',
+        pass: 'ihtphmzsuyrbcbuy',
       },
     });
   }
@@ -16,7 +19,7 @@ class EmailSender {
     const { email, subject, message } = options;
 
     const mailOptions = {
-      from: process.env.USER,
+      from:  'Monster Tap <collinsolayemi@gmail.com>',
       to: email,
       subject,
       html: message,
@@ -31,5 +34,4 @@ class EmailSender {
   }
 }
 
-exports.default = EmailSender;
-
+module.exports = EmailSender;
