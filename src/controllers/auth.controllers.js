@@ -115,6 +115,7 @@ exports.handleLogin = asyncHandler(async (req, res) => {
     status: 'success',
     message: 'Login successful',
     access: accessToken,
+    user,
   });
 });
 

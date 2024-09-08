@@ -2,7 +2,6 @@ const ejs = require('ejs');
 const path = require('path');
 const db = require('../../database/models');
 const { hashPassword } = require('../../utils/hashPassword');
-const nodemailer = require('nodemailer');
 const EmailSender = require('../../utils/email/email.service');
 const emailSender = new EmailSender();
 
