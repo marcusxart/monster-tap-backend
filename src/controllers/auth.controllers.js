@@ -157,6 +157,30 @@ exports.forgetPassword = asyncHandler(async (req, res) => {
   });
 });
 
+exports.resetPassword = asyncHandler(async (req, res) => {
+  const { email, newPassword, confirmPassword } = req.body;
+
+  const user = await db.users.findOne({ where: { email } });
+
+  if (!user) {
+    throw new AppError('User not found', 404);
+  }
+
+  if (newPassword !== confirmPassword) {
+    throw new BadRequestException('password does not match');
+  }
+
+  await hashPassword(newPassword);
+
+  // Update user's password
+  user.password = hashPassword;
+  user.resetPasswordOtp = '';
+  user.resetPasswordExpires = null;
+  await user.save();
+
+  return res.status(200).json({ message: 'Password reset successfully' });
+});
+
 // exports.forgetPassword = asyncHandler(async (req, res) => {
 //   const { email } = req.data;
 

@@ -19,6 +19,14 @@ const user = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    otp: {
+      type: DataTypes.STRING,
+      allowNull: true, 
+    },
+    otpExpiration: {
+      type: DataTypes.DATE,
+      allowNull: true, 
+    },
     referralCode: {
       type: DataTypes.STRING,
       allowNull: false,

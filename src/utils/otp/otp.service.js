@@ -26,6 +26,10 @@ class OtpService {
     const hashedOtp = await hashPassword(otp);
     const otpExpiration = new Date(Date.now() + 5 * 60 * 1000);
 
+    user.otp = hashedOtp;
+    user.otpExpiration = otpExpiration;
+    await user.save();
+
     // Render the OTP email template with EJS
     const templatePath = path.join(
       __dirname,
@@ -46,32 +50,33 @@ class OtpService {
   }
 
   async verifyOtp(email, otp) {
-    const user = await this.userRepository.findOne({ where: { email } });
+    const user = await db.users.findOne({ where: { email } });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new AppError('User not found', 404);
     }
 
     if (user.otpExpiration && user.otpExpiration < new Date()) {
+      // OTP expired
       user.otp = null;
       user.otpExpiration = null;
-      await this.userRepository.save(user);
-      throw new BadRequestException('OTP has expired');
+      await user.save();
+      throw new AppError('OTP has expired', 400);
     }
 
     const isOtpMatch = await bcrypt.compare(otp, user.otp);
 
     if (!isOtpMatch) {
-      throw new BadRequestException('OTP mismatch');
+      throw new AppError('OTP mismatch', 400);
     }
 
     user.otp = null;
     user.otpExpiration = null;
-    await this.userRepository.save(user);
+    await user.save();
 
     return {
-      message: 'Account verified successfully',
-      statusCode: HttpStatus.OK,
+      message: 'OTP verified successfully',
+      statusCode: 200,
     };
   }
 }

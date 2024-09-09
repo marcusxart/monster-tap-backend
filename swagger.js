@@ -22,7 +22,6 @@ const swaggerDefinition = {
   paths: {
     '/auth/sign-up': {
       post: {
-        summary: 'Onboard Users',
         tags: ['Auth'],
         requestBody: {
           required: true,
@@ -49,7 +48,6 @@ const swaggerDefinition = {
 
     '/auth/sign-in': {
       post: {
-        summary: 'Sign in Users',
         tags: ['Auth'],
         requestBody: {
           required: true,
@@ -75,7 +73,6 @@ const swaggerDefinition = {
 
     '/auth/forget-password': {
       post: {
-        summary: 'When a user forget their password',
         tags: ['Auth'],
         requestBody: {
           required: true,
@@ -98,9 +95,58 @@ const swaggerDefinition = {
       },
     },
 
-    '/verify-otp': {
+    '/auth/reset-password': {
       post: {
-        summary: 'Verify the otp sent to user',
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  password: { type: 'string' },
+                  confirmPassword: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
+          },
+        },
+      },
+    },
+
+    'auth/request-otp': {
+      post: {
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
+          },
+        },
+      },
+    },
+
+    'auth/verify-otp': {
+      post: {
         tags: ['Auth'],
         requestBody: {
           required: true,
@@ -111,33 +157,6 @@ const swaggerDefinition = {
                 properties: {
                   email: { type: 'string' },
                   otp: { type: 'string' },
-                },
-              },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: 'Successful operation',
-          },
-        },
-      },
-    },
-
-    '/reset-password': {
-      post: {
-        summary: 'Reset password',
-        tags: ['Auth'],
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  email: { type: 'string' },
-                  newPassword: { type: 'string' },
-                  confirmPassword: { type: 'string' },
                 },
               },
             },

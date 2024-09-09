@@ -17,7 +17,12 @@ const joiHandler = (data, req, next) => {
   }
 };
 
-// Schema for confirming password
+const otpSchema = Joi.string().length(4).required().label('OTP').messages({
+  'string.base': '{{#label}} should be a string',
+  'string.length': '{{#label}} should be 4 digits',
+  'any.required': '{{#label}} is required',
+});
+
 const confirmPassword = Joi.any()
   .valid(Joi.ref('password'))
   .required()
@@ -37,11 +42,22 @@ module.exports = {
     );
   },
 
-  // Function to validate only email 
+  // Function to validate only email
   validateEmail: (req, res, next) => {
     joiHandler(
       {
         email,
+      },
+      req,
+      next
+    );
+  },
+
+  validateEmailAndOtp: (req, res, next) => {
+    joiHandler(
+      {
+        email,
+        otp: otpSchema,
       },
       req,
       next
