@@ -1,5 +1,6 @@
-const nodemailer = require('nodemailer');
 require('dotenv').config();
+
+const nodemailer = require('nodemailer');
 
 class EmailSender {
   constructor() {
@@ -7,10 +8,8 @@ class EmailSender {
       service: 'gmail',
       secure: false,
       auth: {
-        // user: process.env.USER,
-        // pass: process.env.PASS,
-        user: 'thepeculiartech@gmail.com',
-        pass: 'ihtphmzsuyrbcbuy',
+        user: process.env.USER,
+        pass: process.env.PASS,
       },
     });
   }
@@ -19,7 +18,7 @@ class EmailSender {
     const { email, subject, message } = options;
 
     const mailOptions = {
-      from:  'Monster Tap <collinsolayemi@gmail.com>',
+      from: 'Monster Tap <collinsolayemi@gmail.com>',
       to: email,
       subject,
       html: message,
