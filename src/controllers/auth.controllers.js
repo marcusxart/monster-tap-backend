@@ -174,8 +174,8 @@ exports.resetPassword = asyncHandler(async (req, res) => {
 
   // Update user's password
   user.password = hashPassword;
-  user.resetPasswordOtp = '';
-  user.resetPasswordExpires = null;
+  user.otp = null;
+  user.otpExpiration = null;
   await user.save();
 
   return res.status(200).json({ message: 'Password reset successfully' });
