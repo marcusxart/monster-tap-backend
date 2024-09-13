@@ -1,7 +1,7 @@
-const asyncHandler = require("express-async-handler");
-const db = require("../database/models");
-const AppError = require("../utils/appError");
-const { getIo } = require("../socket");
+const asyncHandler = require('express-async-handler');
+const db = require('../database/models');
+const AppError = require('../utils/appError');
+const { getIo } = require('../socket');
 
 exports.incrementCoin = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -13,10 +13,10 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
   });
 
   if (!account) {
-    throw new AppError("Account not found", 404);
+    throw new AppError('Account not found', 404);
   }
   db.sequelize.transaction(async (t) => {
-    await db.accounts.increment("coinCount", {
+    await db.accounts.increment('coinCount', {
       by: 1,
       where: {
         id: account.id,
@@ -31,10 +31,10 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
       transaction: t,
     });
 
-    io.emit("coin-update", updatedAccount.coinCount);
+    io.emit('coin-update', updatedAccount.coinCount);
 
     res.status(200).send({
-      status: "success",
+      status: 'success',
     });
   });
 });
@@ -48,10 +48,10 @@ exports.getAccount = asyncHandler(async (req, res) => {
   });
 
   if (!account) {
-    throw new AppError("Account not found", 404);
+    throw new AppError('Account not found', 404);
   }
   res.status(200).send({
-    status: "success",
+    status: 'success',
     results: account,
   });
 });

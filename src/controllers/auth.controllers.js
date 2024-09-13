@@ -49,14 +49,14 @@ exports.createUser = asyncHandler(async (req, res) => {
       });
       if (findReferral) {
         await db.accounts.increment('coinCount', {
-          by: 20000,
+          by: 2000,
           where: {
             id: newAccount.id,
           },
           transaction: t,
         });
         await db.accounts.increment('coinCount', {
-          by: 20000,
+          by: 2000,
           where: {
             userId: findReferral.id,
           },

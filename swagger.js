@@ -20,9 +20,46 @@ const swaggerDefinition = {
     // },
   ],
   paths: {
+    // '/auth/sign-up': {
+    //   post: {
+    //     tags: ['Auth'],
+    //     requestBody: {
+    //       required: true,
+    //       content: {
+    //         'application/json': {
+    //           schema: {
+    //             type: 'object',
+    //             properties: {
+    //               email: { type: 'string' },
+    //               password: { type: 'string' },
+    //               confirmPassword: { type: 'string' },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //     responses: {
+    //       201: {
+    //         description: 'Successful operation',
+    //       },
+    //     },
+    //   },
+    // },
+
     '/auth/sign-up': {
       post: {
         tags: ['Auth'],
+        parameters: [
+          {
+            in: 'query',
+            name: 'referral_code',
+            required: false,
+            description: 'Optional referral code for the sign-up',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
         requestBody: {
           required: true,
           content: {
@@ -41,6 +78,9 @@ const swaggerDefinition = {
         responses: {
           201: {
             description: 'Successful operation',
+          },
+          400: {
+            description: 'Bad request',
           },
         },
       },
@@ -173,7 +213,6 @@ const swaggerDefinition = {
     '/auth/incrementCoin/{id}': {
       post: {
         tags: ['Account'],
-        
       },
 
       // "post": {
