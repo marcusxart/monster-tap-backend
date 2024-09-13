@@ -1,5 +1,5 @@
-require("dotenv").config();
-const bcrypt = require("bcrypt");
+require('dotenv').config();
+const bcrypt = require('bcrypt');
 
 // Hashes a password using bcrypt
 const hashPassword = async (password) => {

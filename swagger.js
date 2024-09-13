@@ -121,7 +121,7 @@ const swaggerDefinition = {
       },
     },
 
-    'auth/request-otp': {
+    '/auth/request-otp': {
       post: {
         tags: ['Auth'],
         requestBody: {
@@ -145,7 +145,7 @@ const swaggerDefinition = {
       },
     },
 
-    'auth/verify-otp': {
+    '/auth/verify-otp': {
       post: {
         tags: ['Auth'],
         requestBody: {
@@ -169,6 +169,40 @@ const swaggerDefinition = {
         },
       },
     },
+
+    '/auth/incrementCoin/{id}': {
+      post: {
+        tags: ['Account'],
+        
+      },
+
+      // "post": {
+      // "tags": ["Account"],
+      // "summary": "Increment user coin count",
+      // "description": "Increment the coin count of a specific user's account by 1.",
+      // "parameters": [
+      //   {
+      //     "in": "path",
+      //     "name": "id",
+      //     "required": true,
+      //     "description": "ID of the user whose coin count will be incremented",
+      //     "schema": {
+      //       "type": "string"
+      //     }
+      //   }
+      // ],
+    },
+
+    // 'auth/incrementCoin': {
+    //   post: {
+    //     tags: ['Account'],
+    //     responses: {
+    //       200: {
+    //         description: 'Successful operation',
+    //       },
+    //     },
+    //   },
+    // },
   },
   security: [
     {

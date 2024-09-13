@@ -9,9 +9,8 @@ const { hashPassword, checkPassword } = require('../utils/hashPassword');
 const { USER_COLORS } = require('../configs/constants');
 const { generateToken } = require('../utils/tokenGen');
 const db = require('../database/models');
-const OtpService = require('../utils/otp/otp.service');
-const otpService = new OtpService();
 const EmailSender = require('../utils/email/email.service');
+const { requestOtp, verifyOtp } = require('../utils/otp/otp.service');
 const emailSender = new EmailSender();
 
 exports.createUser = asyncHandler(async (req, res) => {
@@ -149,7 +148,7 @@ exports.forgetPassword = asyncHandler(async (req, res) => {
     throw new AppError('User not found', 404);
   }
 
-  await otpService.requestOtp(email);
+  await requestOtp(email);
 
   res.status(200).send({
     status: 'success',

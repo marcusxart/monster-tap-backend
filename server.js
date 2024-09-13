@@ -3,8 +3,6 @@ const http = require('http');
 const path = require('path');
 const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
-const ejs = require('ejs');
-
 const app = require('./src/app');
 const db = require('./src/database/models');
 const { initSocket } = require('./src/socket');
@@ -19,6 +17,7 @@ const options = {
   swaggerDefinition,
   apis: [path.join(routeFolderPath, '*.js')],
 };
+
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

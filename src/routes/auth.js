@@ -6,8 +6,10 @@ const {
   resetPassword,
 } = require('../controllers/auth.controllers');
 const validators = require('../middlewares/validators.middleware');
-const OtpService = require('../utils/otp/otp.service');
-const otpService = new OtpService();
+const {
+  requestOtpWhenExpires,
+  verifyOtp,
+} = require('../utils/otp/otp.service');
 
 const auth = Router();
 
@@ -19,7 +21,7 @@ auth.post(
   validators.validateEmailPasswordConfirm,
   resetPassword
 );
-auth.post('/request-otp', validators.validateEmail, otpService.requestOtp);
-auth.post('/verify-otp', validators.validateEmailAndOtp, otpService.verifyOtp);
+auth.post('/request-otp', validators.validateEmail, requestOtpWhenExpires);
+auth.post('/verify-otp', validators.validateEmailAndOtp, verifyOtp);
 
 module.exports = auth;
