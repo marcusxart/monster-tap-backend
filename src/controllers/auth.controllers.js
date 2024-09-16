@@ -157,22 +157,22 @@ exports.forgetPassword = asyncHandler(async (req, res) => {
 });
 
 exports.resetPassword = asyncHandler(async (req, res) => {
-  const { email, newPassword, confirmPassword } = req.body;
+  const { email, password, confirmPassword } = req.body;
 
   const user = await db.users.findOne({ where: { email } });
 
   if (!user) {
-    throw new AppError('User not found', 404);
+    throw new AppError('User not found', 400);
   }
 
-  if (newPassword !== confirmPassword) {
-    throw new BadRequestException('password does not match');
+  if (password !== confirmPassword) {
+    throw new AppError('password does not match', 403);
   }
 
-  await hashPassword(newPassword);
+  const newPassword = await hashPassword(password);
 
   // Update user's password
-  user.password = hashPassword;
+  user.password = newPassword;
   user.otp = null;
   user.otpExpiration = null;
   await user.save();
