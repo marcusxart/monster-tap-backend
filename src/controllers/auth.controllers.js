@@ -95,7 +95,15 @@ exports.createUser = asyncHandler(async (req, res) => {
 exports.handleLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.data;
 
-  const user = await db.users.findOne({ where: { email } });
+  // const user = await db.users.findOne({ where: { email } });
+
+  const user = await db.users.findOne({
+    where: { email },
+    include: {
+      model: db.accounts,
+      as: 'account',
+    },
+  });
 
   if (!user) {
     throw new AppError(
@@ -103,6 +111,7 @@ exports.handleLogin = asyncHandler(async (req, res) => {
       404
     );
   }
+
   if (!(await checkPassword(password, user.password))) {
     throw new AppError('Invalid email or password. Please try again.', 401);
   }
