@@ -1,12 +1,12 @@
-const { Router } = require("express");
+const { Router } = require('express');
 const {
   incrementCoin,
   getAccount,
-} = require("../controllers/account.controllers");
+} = require('../controllers/account.controllers');
 
 const account = Router({ mergeParams: true });
 
-account.post("/", getAccount);
-account.post("/incrementCoin", incrementCoin);
+account.post('/', getAccount);
+account.post('/incrementCoin/:id', incrementCoin);
 
 module.exports = account;

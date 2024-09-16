@@ -95,8 +95,6 @@ exports.createUser = asyncHandler(async (req, res) => {
 exports.handleLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.data;
 
-  // const user = await db.users.findOne({ where: { email } });
-
   const user = await db.users.findOne({
     where: { email },
     include: {

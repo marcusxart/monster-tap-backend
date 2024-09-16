@@ -210,9 +210,31 @@ const swaggerDefinition = {
       },
     },
 
-    '/auth/incrementCoin/{id}': {
+    '/account/incrementCoin/{id}': {
       post: {
         tags: ['Account'],
+        summary: 'Increment user coin count',
+        description:
+          "Increment the coin count of a specific user's account by 1.",
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            description: 'ID of the user whose coin count will be incremented',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'Coin count incremented successfully',
+          },
+          404: {
+            description: 'User or account not found',
+          },
+        },
       },
 
       // "post": {
@@ -231,17 +253,6 @@ const swaggerDefinition = {
       //   }
       // ],
     },
-
-    // 'auth/incrementCoin': {
-    //   post: {
-    //     tags: ['Account'],
-    //     responses: {
-    //       200: {
-    //         description: 'Successful operation',
-    //       },
-    //     },
-    //   },
-    // },
   },
   security: [
     {

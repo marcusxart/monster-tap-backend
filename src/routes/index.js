@@ -8,6 +8,7 @@ api.get("/", (req, res) => {
 });
 
 api.use("/auth", require("./auth"));
+api.use("/account", require("./account"));
 
 // api.use(verifyJWT);
 api.use("/users", require("./users"));
