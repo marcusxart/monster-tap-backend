@@ -11,6 +11,7 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
       userId: id,
     },
   });
+  console.log(account.bonus, account.coinCount);
 
   if (!account) {
     throw new AppError('Account not found', 404);
@@ -33,8 +34,18 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
 
     io.emit('coin-update', updatedAccount.coinCount);
 
+    if (account.coinCount === 100) {
+      account.bonus = 5;
+      await account.save();
+    }
+
+    const coinCounts = account.coinCount;
+    const bonus = account.bonus;
+
     res.status(200).send({
       status: 'success',
+      coinCounts,
+      bonus,
     });
   });
 });
@@ -55,3 +66,5 @@ exports.getAccount = asyncHandler(async (req, res) => {
     results: account,
   });
 });
+
+exports.assignTask = asyncHandler(async (req, res) => {});
