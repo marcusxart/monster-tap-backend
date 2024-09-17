@@ -3,10 +3,11 @@ const {
   incrementCoin,
   getAccount,
 } = require('../controllers/account.controllers');
+const verifyJWT = require('../middlewares/verifyJWT.middleware');
 
 const account = Router({ mergeParams: true });
 
 account.post('/', getAccount);
-account.post('/incrementCoin/:id', incrementCoin);
+account.post('/incrementCoin/:id', verifyJWT, incrementCoin);
 
 module.exports = account;

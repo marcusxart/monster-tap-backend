@@ -212,6 +212,11 @@ const swaggerDefinition = {
 
     '/account/incrementCoin/{id}': {
       post: {
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
         tags: ['Account'],
         summary: 'Increment user coin count',
         description:
