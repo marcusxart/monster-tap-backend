@@ -214,7 +214,7 @@ const swaggerDefinition = {
       post: {
         security: [
           {
-            BearerAuth: [],
+            JWT: [],
           },
         ],
         tags: ['Account'],
@@ -241,22 +241,33 @@ const swaggerDefinition = {
           },
         },
       },
+    },
 
-      // "post": {
-      // "tags": ["Account"],
-      // "summary": "Increment user coin count",
-      // "description": "Increment the coin count of a specific user's account by 1.",
-      // "parameters": [
-      //   {
-      //     "in": "path",
-      //     "name": "id",
-      //     "required": true,
-      //     "description": "ID of the user whose coin count will be incremented",
-      //     "schema": {
-      //       "type": "string"
-      //     }
-      //   }
-      // ],
+    '/account/getUserBonus/{id}': {
+      post: {
+        tags: ['Account'],
+        summary: 'Get the balance of a specific user',
+        description: 'Get the balance of a specific user.',
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            description: 'ID of the user whose bonus is to be returned',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'Bonus returned successfully',
+          },
+          404: {
+            description: 'User or account not found',
+          },
+        },
+      },
     },
   },
   security: [
