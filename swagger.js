@@ -211,7 +211,7 @@ const swaggerDefinition = {
     },
 
     '/account/incrementCoin/{id}': {
-      get: {
+      post: {
         security: [
           {
             JWT: [],
@@ -244,7 +244,7 @@ const swaggerDefinition = {
     },
 
     '/account/getUserBonus/{id}': {
-      post: {
+      get: {
         tags: ['Account'],
         summary: 'Get the balance of a specific user',
         description: 'Get the balance of a specific user.',
