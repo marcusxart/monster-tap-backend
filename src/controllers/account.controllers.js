@@ -36,8 +36,8 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
 
     io.emit('coin-update', updatedAccount.coinCount);
 
-    if (updatedAccount.coinCount === 130) {
-      updatedAccount.bonus = 6;
+    if (updatedAccount.coinCount === 200) {
+      updatedAccount.bonus = 10;
       await updatedAccount.save({ transaction: t });
 
       io.emit('bonus-earned', {
@@ -69,7 +69,7 @@ exports.getUserBonus = asyncHandler(async (req, res) => {
     throw new AppError('Account not found', 404);
   }
 
-  const bonus = account.bonus
+  const bonus = account.bonus;
 
   res.status(200).send({
     status: 'success',
