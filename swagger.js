@@ -211,7 +211,7 @@ const swaggerDefinition = {
     },
 
     '/account/incrementCoin/{id}': {
-      post: {
+      get: {
         security: [
           {
             JWT: [],

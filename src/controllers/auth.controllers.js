@@ -10,12 +10,12 @@ const { USER_COLORS } = require('../configs/constants');
 const { generateToken } = require('../utils/tokenGen');
 const db = require('../database/models');
 const EmailSender = require('../utils/email/email.service');
-const { requestOtp, verifyOtp } = require('../utils/otp/otp.service');
+const { requestOtp } = require('../utils/otp/otp.service');
 const emailSender = new EmailSender();
 
 exports.createUser = asyncHandler(async (req, res) => {
   const data = req.data;
-  const { referral_code } = req.query;
+  const { referral_code } = req.query.ref;
   const { email } = data;
   const user = await db.users.findOne({ where: { email } });
 
@@ -48,13 +48,13 @@ exports.createUser = asyncHandler(async (req, res) => {
         where: { referralCode: referral_code },
       });
       if (findReferral) {
-        await db.accounts.increment('coinCount', {
-          by: 2000,
-          where: {
-            id: newAccount.id,
-          },
-          transaction: t,
-        });
+        // await db.accounts.increment('coinCount', {
+        //   by: 2000,
+        //   where: {
+        //     id: newAccount.id,
+        //   },
+        //   transaction: t,
+        // });
         await db.accounts.increment('coinCount', {
           by: 2000,
           where: {

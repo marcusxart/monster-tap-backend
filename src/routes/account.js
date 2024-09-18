@@ -10,6 +10,6 @@ const account = Router({ mergeParams: true });
 
 account.post('/', getAccount);
 account.post('/incrementCoin/:id', verifyJWT, incrementCoin);
-account.post('/getUserBonus/:id', getUserBonus);
+account.get('/getUserBonus/:id', getUserBonus);
 
 module.exports = account;
