@@ -29,7 +29,7 @@ const confirmPassword = Joi.any()
   .label('Confirm password')
   .messages({ 'any.only': '{{#label}} does not match' });
 
-const referral_code = Joi.string().optional().label('Referral code');
+const referral_code = Joi.string().optional().label('referral_code');
 
 module.exports = {
   // Function to validate email and password
