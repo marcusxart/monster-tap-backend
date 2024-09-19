@@ -269,6 +269,34 @@ const swaggerDefinition = {
         },
       },
     },
+
+    
+    '/account/getUserCoinCount/{id}': {
+      get: {
+        tags: ['Account'],
+        summary: 'Get the balance of a specific user',
+        description: 'Get the balance of a specific user.',
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            description: 'ID of the user whose coins counts is to be returned',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'coins returned successfully',
+          },
+          404: {
+            description: 'User or account not found',
+          },
+        },
+      },
+    },
   },
   security: [
     {

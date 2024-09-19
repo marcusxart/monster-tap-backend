@@ -77,6 +77,26 @@ exports.getUserBonus = asyncHandler(async (req, res) => {
   });
 });
 
+exports.getUserCoinCounts = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const account = await db.accounts.findOne({
+    where: {
+      userId: id,
+    },
+  });
+
+  if (!account) {
+    throw new AppError('Account not found', 404);
+  }
+
+  const coinCount = account.coinCount;
+
+  res.status(200).send({
+    status: 'success',
+    coinCount,
+  });
+});
+
 exports.getAccount = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const account = await db.accounts.findOne({
