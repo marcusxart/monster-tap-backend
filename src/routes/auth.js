@@ -13,7 +13,7 @@ const {
 
 const auth = Router();
 
-auth.post('/sign-up', validators.validateEmailPasswordConfirm, createUser);
+auth.post('/sign-up', validators.validateEmailPasswordConfirmReferral, createUser);
 auth.post('/sign-in', validators.emailPassword, handleLogin);
 auth.post('/forget-password', validators.validateEmail, forgetPassword);
 auth.post(

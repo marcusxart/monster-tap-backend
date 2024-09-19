@@ -29,6 +29,8 @@ const confirmPassword = Joi.any()
   .label('Confirm password')
   .messages({ 'any.only': '{{#label}} does not match' });
 
+const referral_code = Joi.string().optional().label('Referral code');
+
 module.exports = {
   // Function to validate email and password
   emailPassword: (req, res, next) => {
@@ -58,6 +60,19 @@ module.exports = {
       {
         email,
         otp: otpSchema,
+      },
+      req,
+      next
+    );
+  },
+
+  validateEmailPasswordConfirmReferral: (req, res, next) => {
+    joiHandler(
+      {
+        email,
+        password,
+        confirmPassword,
+        referral_code, // Optional field
       },
       req,
       next
