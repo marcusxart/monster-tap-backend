@@ -34,15 +34,6 @@ exports.createUser = asyncHandler(async (req, res) => {
       { transaction: t }
     );
 
-    await db.accounts.create(
-      {
-        coinCount: 0,
-        bonus: 0,
-        userId: newUser.id,
-      },
-      { transaction: t }
-    );
-
     const newAccount = await db.accounts.create(
       {
         coinCount: 0,
@@ -66,7 +57,7 @@ exports.createUser = asyncHandler(async (req, res) => {
           },
           transaction: t,
         });
-        // Add 2000 bonus to the referrer's account
+
         await db.accounts.increment('coinCount', {
           by: 2000,
           where: {
@@ -75,6 +66,23 @@ exports.createUser = asyncHandler(async (req, res) => {
           transaction: t,
         });
       }
+    }
+
+    const updatedNewAccount = await db.accounts.findOne({
+      where: {
+        id: newAccount.id,
+      },
+      transaction: t,
+    });
+
+    if (updatedNewAccount.coinCount >= 200) {
+      await db.accounts.increment('bonus', {
+        by: 10,
+        where: {
+          id: newAccount.id, 
+        },
+        transaction: t,
+      });
     }
 
     const date = new Date();

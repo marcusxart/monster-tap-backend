@@ -26,7 +26,6 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
       transaction: t,
     });
 
-    // Fetch the updated account with the new coin count
     const updatedAccount = await db.accounts.findOne({
       where: {
         id: account.id,
@@ -36,7 +35,7 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
 
     io.emit('coin-update', updatedAccount.coinCount);
 
-    if (updatedAccount.coinCount === 200) {
+    if (updatedAccount.coinCount >= 200) {
       updatedAccount.bonus = 10;
       await updatedAccount.save({ transaction: t });
 
