@@ -15,8 +15,7 @@ const emailSender = new EmailSender();
 
 exports.createUser = asyncHandler(async (req, res) => {
   const data = req.data;
-  const { referral_code } = req.query;
-  const { email } = data;
+  const { email, referral_code } = data;
   const user = await db.users.findOne({ where: { email } });
 
   if (user) {

@@ -50,15 +50,6 @@ const swaggerDefinition = {
       post: {
         tags: ['Auth'],
         parameters: [
-          {
-            in: 'query',
-            name: 'referral_code',
-            required: false,
-            description: 'Optional referral code for the sign-up',
-            schema: {
-              type: 'string',
-            },
-          },
         ],
         requestBody: {
           required: true,
@@ -70,6 +61,8 @@ const swaggerDefinition = {
                   email: { type: 'string' },
                   password: { type: 'string' },
                   confirmPassword: { type: 'string' },
+                  referral_code: { type: 'string' },
+
                 },
               },
             },
