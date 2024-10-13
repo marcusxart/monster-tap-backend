@@ -2,8 +2,7 @@ const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
     title: 'MONSTER TAP  API Documentation',
-    description:
-      'API documentation for the monster tap ServerSide API.',
+    description: 'API documentation for the monster tap ServerSide API.',
     version: '1.0.0',
   },
   servers: [
@@ -11,19 +10,77 @@ const swaggerDefinition = {
       url: 'http://localhost:6600',
       description: 'Local server',
     },
-    // {
-    //   url: 'https://sterling-dictionary.onrender.com/api/v1',
-    //   description: 'Development server',
-    // },
+    {
+      url: 'https://monster-tap-backend.onrender.com',
+      description: 'Development server',
+    },
     // {
     //   url: 'https://backend.com.endpoint.ng/api/v1',
     //   description: 'Production server',
     // },
   ],
   paths: {
-    "/auth/sign-up": {
+    // '/auth/sign-up': {
+    //   post: {
+    //     tags: ['Auth'],
+    //     requestBody: {
+    //       required: true,
+    //       content: {
+    //         'application/json': {
+    //           schema: {
+    //             type: 'object',
+    //             properties: {
+    //               email: { type: 'string' },
+    //               password: { type: 'string' },
+    //               confirmPassword: { type: 'string' },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //     responses: {
+    //       201: {
+    //         description: 'Successful operation',
+    //       },
+    //     },
+    //   },
+    // },
+
+    '/auth/sign-up': {
       post: {
-        summary: 'Onboard Users',
+        tags: ['Auth'],
+        parameters: [
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  password: { type: 'string' },
+                  confirmPassword: { type: 'string' },
+                  referral_code: { type: 'string' },
+
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          201: {
+            description: 'Successful operation',
+          },
+          400: {
+            description: 'Bad request',
+          },
+        },
+      },
+    },
+
+    '/auth/sign-in': {
+      post: {
         tags: ['Auth'],
         requestBody: {
           required: true,
@@ -40,195 +97,199 @@ const swaggerDefinition = {
           },
         },
         responses: {
-          201: {
+          200: {
             description: 'Successful operation',
           },
         },
       },
     },
 
-    "/auth/sign-in": {
-        post: {
-          summary: 'Sign in Users',
-          tags: ['Auth'],
-          requestBody: {
-            required: true,
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    email: { type: 'string' },
-                    password: { type: 'string' },
-                  },
+    '/auth/forget-password': {
+      post: {
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
                 },
               },
             },
           },
-          responses: {
-            201: {
-              description: 'Successful operation',
-            },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
           },
         },
       },
-      
-    //   '/onboard-admin': {
-    //     post: {
-    //       summary: 'Onboard Admin',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 password: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '201': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+    },
 
-    //   '/onboard-subadmin': {
-    //     post: {
-    //       summary: 'Onboard Sub-Admin',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 password: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '201': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+    '/auth/reset-password': {
+      post: {
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  password: { type: 'string' },
+                  confirmPassword: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
+          },
+        },
+      },
+    },
 
-    //   '/login': {
-    //     post: {
-    //       summary: 'logging in users',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 password: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'User logged in successfully',
-    //         },
-    //       },
-    //       security: [{ JWT: [] }], // Add security requirement for JWT token
-    //     },
-    //   },
+    '/auth/request-otp': {
+      post: {
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
+          },
+        },
+      },
+    },
 
-    //   '/forget-password': {
-    //     post: {
-    //       summary: 'When a user forget their password',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+    '/auth/verify-otp': {
+      post: {
+        tags: ['Auth'],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  email: { type: 'string' },
+                  otp: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Successful operation',
+          },
+        },
+      },
+    },
 
-    //   '/verify-otp': {
-    //     post: {
-    //       summary: 'Verify the otp sent to user',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 otp: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+    '/account/incrementCoin/{id}': {
+      post: {
+        security: [
+          {
+            JWT: [],
+          },
+        ],
+        tags: ['Account'],
+        summary: 'Increment user coin count',
+        description:
+          "Increment the coin count of a specific user's account by 1.",
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            description: 'ID of the user whose coin count will be incremented',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'Coin count incremented successfully',
+          },
+          404: {
+            description: 'User or account not found',
+          },
+        },
+      },
+    },
 
-    //   '/reset-password': {
-    //     post: {
-    //       summary: 'Reset password',
-    //       tags: ['Auth'],
-    //       requestBody: {
-    //         required: true,
-    //         content: {
-    //           'application/json': {
-    //             schema: {
-    //               type: 'object',
-    //               properties: {
-    //                 email: { type: 'string' },
-    //                 newPassword: { type: 'string' },
-    //                 confirmPassword: { type: 'string' },
-    //               },
-    //             },
-    //           },
-    //         },
-    //       },
-    //       responses: {
-    //         '200': {
-    //           description: 'Successful operation',
-    //         },
-    //       },
-    //     },
-    //   },
+    '/account/getUserBonus/{id}': {
+      get: {
+        tags: ['Account'],
+        summary: 'Get the balance of a specific user',
+        description: 'Get the balance of a specific user.',
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            description: 'ID of the user whose bonus is to be returned',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'Bonus returned successfully',
+          },
+          404: {
+            description: 'User or account not found',
+          },
+        },
+      },
+    },
+
+    
+    '/account/getUserCoinCount/{id}': {
+      get: {
+        tags: ['Account'],
+        summary: 'Get the balance of a specific user',
+        description: 'Get the balance of a specific user.',
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            description: 'ID of the user whose coins counts is to be returned',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'coins returned successfully',
+          },
+          404: {
+            description: 'User or account not found',
+          },
+        },
+      },
+    },
   },
   security: [
     {
@@ -257,4 +318,3 @@ const swaggerDefinition = {
 };
 
 module.exports = swaggerDefinition;
-

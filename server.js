@@ -3,7 +3,6 @@ const http = require('http');
 const path = require('path');
 const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
-
 const app = require('./src/app');
 const db = require('./src/database/models');
 const { initSocket } = require('./src/socket');
@@ -18,8 +17,14 @@ const options = {
   swaggerDefinition,
   apis: [path.join(routeFolderPath, '*.js')],
 };
+
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.set('view engine', 'ejs');
+
+// Set the directory for the EJS templates
+app.set('views', path.join(__dirname, 'templates'));
 
 db.sequelize.sync({ alter: true }).then(() => {
   initSocket(server);

@@ -1,7 +1,7 @@
-const asyncHandler = require("express-async-handler");
-const db = require("../database/models");
-const AppError = require("../utils/appError");
-const { getIo } = require("../socket");
+const asyncHandler = require('express-async-handler');
+const db = require('../database/models');
+const AppError = require('../utils/appError');
+const { getIo } = require('../socket');
 
 exports.incrementCoin = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -13,10 +13,12 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
   });
 
   if (!account) {
-    throw new AppError("Account not found", 404);
+    throw new AppError('Account not found', 404);
   }
-  db.sequelize.transaction(async (t) => {
-    await db.accounts.increment("coinCount", {
+
+  await db.sequelize.transaction(async (t) => {
+    // Increment coin count by 1
+    await db.accounts.increment('coinCount', {
       by: 1,
       where: {
         id: account.id,
@@ -31,11 +33,66 @@ exports.incrementCoin = asyncHandler(async (req, res) => {
       transaction: t,
     });
 
-    io.emit("coin-update", updatedAccount.coinCount);
+    io.emit('coin-update', updatedAccount.coinCount);
+
+    if (updatedAccount.coinCount >= 200) {
+      updatedAccount.bonus = 10;
+      await updatedAccount.save({ transaction: t });
+
+      io.emit('bonus-earned', {
+        coinCount: updatedAccount.coinCount,
+        bonus: updatedAccount.bonus,
+      });
+    }
+
+    const coinCounts = updatedAccount.coinCount;
+    const bonus = updatedAccount.bonus;
 
     res.status(200).send({
-      status: "success",
+      status: 'success',
+      coinCounts,
+      bonus,
     });
+  });
+});
+
+exports.getUserBonus = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const account = await db.accounts.findOne({
+    where: {
+      userId: id,
+    },
+  });
+
+  if (!account) {
+    throw new AppError('Account not found', 404);
+  }
+
+  const bonus = account.bonus;
+
+  res.status(200).send({
+    status: 'success',
+    bonus,
+  });
+});
+
+exports.getUserCoinCounts = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const account = await db.accounts.findOne({
+    where: {
+      userId: id,
+    },
+  });
+
+  if (!account) {
+    throw new AppError('Account not found', 404);
+  }
+
+  const coinCount = account.coinCount;
+
+  res.status(200).send({
+    status: 'success',
+    coinCount,
   });
 });
 
@@ -48,10 +105,12 @@ exports.getAccount = asyncHandler(async (req, res) => {
   });
 
   if (!account) {
-    throw new AppError("Account not found", 404);
+    throw new AppError('Account not found', 404);
   }
   res.status(200).send({
-    status: "success",
+    status: 'success',
     results: account,
   });
 });
+
+exports.assignTask = asyncHandler(async (req, res) => {});
